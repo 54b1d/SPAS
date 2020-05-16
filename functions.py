@@ -6,6 +6,13 @@ from PyQt5 import QtWidgets, uic
 from SqliteHelper import code, transactions
 
 
+def first_run():
+    try:
+        code.create_table()
+    except sqlite3.Error as err:
+        print(err)
+
+
 def add_transaction_in_ui():
     """"pops addTransaction Dialog for IN
         completes transaction and balance insertion"""

@@ -6,8 +6,7 @@ import sys
 
 from PyQt5 import QtWidgets, uic
 
-from SqliteHelper import code
-from functions import initial_adjustment, journal, accounts
+from functions import first_run, initial_adjustment, journal, accounts
 
 app = QtWidgets.QApplication([])
 # mainWindow UI
@@ -18,8 +17,7 @@ mainUi = uic.loadUi('mainWindow.ui')
 # UI Add New Transaction
 addTrx = uic.loadUi('addTransactionDialog.ui')
 
-mainUi.actionSetupdb.triggered.connect(
-    code.create_table)  # triggers to Create db and tables
+mainUi.actionSetupdb.triggered.connect(first_run)  # triggers to Create db and tables
 mainUi.actionInitial_Adjustments.triggered.connect(
     initial_adjustment)  # trigger loads initial adjustment ui for accounts
 mainUi.actionAccounts.triggered.connect(accounts)  # triggers to load accounts window

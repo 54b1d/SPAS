@@ -1,10 +1,10 @@
-# Created watching tutorial
 # Copyright SABID
 # stable functions
 # setup db/tables, insert account, viewaccounts,
 # Trx = transaction
 import datetime
 import sqlite3
+import sys
 
 from PyQt5 import QtWidgets, uic
 
@@ -27,10 +27,11 @@ addacc = uic.loadUi('addAccountDialogue.ui')
 addTrx = uic.loadUi('addTransactionDialog.ui')
 
 
+# todo move and import from functions
 def journal():
     """calls sqlitehelper select"""
     journalWindow.show()
-    # set current date day on top
+    # set as requested date and day name for that
     journalWindow.label_date_day.setText(
         str(datetime.date.today()) + '- ' + str(datetime.datetime.now(
         ).strftime("%A")))
@@ -49,10 +50,13 @@ def journal():
     journalWindow.pb_newTrx_out.clicked.connect(add_transaction_out_ui)
 
 
-def accounts():  # loads accounts window
+# todo move and import from functions
+def accounts():
+    """loads accounts window"""
     accountsWindow.show()
 
     def fetch_accounts():
+        """populate accounts window table"""
         accountsWindow.tableWidget.setRowCount(0)
         query = '''SELECT * FROM accounts'''
         try:
@@ -96,6 +100,7 @@ def accounts():  # loads accounts window
     addacc.buttonBox.accepted.connect(pbaddaccount_clicked)
 
 
+# todo move and import from functions
 def ledger_transactions(uid=''):
     """Ledger Widget table contents"""
     data = transactions(uid)
@@ -121,4 +126,4 @@ mainUi.actionJournal.triggered.connect(
 
 if __name__ == "__main__":
     mainUi.show()
-    app.exec()
+    sys.exit(app.exec())

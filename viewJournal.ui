@@ -35,7 +35,7 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="groupBox_c_in">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -47,8 +47,54 @@
    <property name="title">
     <string>নগদ জমা</string>
    </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>201</width>
+      <height>52</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label_name">
+         <property name="text">
+          <string>নাম</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_address">
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="text">
+          <string>ঠিকানা</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_amount">
+       <property name="toolTip">
+        <string>মন্তব্য</string>
+       </property>
+       <property name="text">
+        <string>০০০০৳</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_2">
+  <widget class="QGroupBox" name="groupBox_c_out">
    <property name="geometry">
     <rect>
      <x>250</x>
@@ -60,8 +106,51 @@
    <property name="title">
     <string>নগদ খরচ</string>
    </property>
+   <widget class="QWidget" name="layoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>201</width>
+      <height>52</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QLabel" name="label_name_3">
+         <property name="text">
+          <string>নাম</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_address_3">
+         <property name="text">
+          <string>ঠিকানা</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_amount_3">
+       <property name="toolTip">
+        <string>মন্তব্য</string>
+       </property>
+       <property name="text">
+        <string>০০০০৳</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignBottom|Qt::AlignRight|Qt::AlignTrailing</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
-  <widget class="QGroupBox" name="groupBox_4">
+  <widget class="QGroupBox" name="groupBox_inventory_in">
    <property name="geometry">
     <rect>
      <x>490</x>
@@ -74,7 +163,7 @@
     <string>Inventory In</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_3">
+  <widget class="QGroupBox" name="groupBox_inventory_out">
    <property name="geometry">
     <rect>
      <x>730</x>

@@ -47,7 +47,9 @@ class SqliteHelper:
 
         c.execute('''CREATE TABLE [inventory_balance](
         [p_type] INT NOT NULL UNIQUE,
-        [p_stock] INT DEFAULT 0);''')
+        [p_name] TEXT NOT NULL UNIQUE,
+        [p_stock] INT NOT NULL DEFAULT 0);
+        ''')
         print('Tables created successfully.')
         self.conn.commit()
 
@@ -230,4 +232,4 @@ def transactions(uid=''):
             print(err)
 
 
-code = SqliteHelper("MVOM.DB")
+code = SqliteHelper("testSPAS.db")

@@ -80,6 +80,7 @@
     <addaction name="actionAccounts"/>
     <addaction name="actionJournal"/>
     <addaction name="actionInventory"/>
+    <addaction name="actionLedger"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -168,6 +169,14 @@
    </property>
    <property name="shortcut">
     <string>Alt+Shift+I</string>
+   </property>
+  </action>
+  <action name="actionLedger">
+   <property name="text">
+    <string>Ledger</string>
+   </property>
+   <property name="shortcut">
+    <string>Alt+L</string>
    </property>
   </action>
  </widget>

@@ -2,7 +2,6 @@ import datetime
 import sqlite3
 
 from PyQt5 import QtWidgets, uic
-
 from SqliteHelper import code, transactions
 
 
@@ -127,6 +126,7 @@ def add_transaction_in_ui():
             # reset amount field
             add_trx.ldamount.setText('')
             add_trx.show()
+            add_trx.comboBox.setFocus()
         else:
             add_trx.close()
 
@@ -253,6 +253,7 @@ def add_transaction_out_ui():
             # reset amount field
             add_trx.ldamount.setText('')
             add_trx.show()
+            add_trx.comboBox.setFocus()
         else:
             add_trx.close()
 
@@ -297,6 +298,7 @@ def initial_adjustment():
             # reset amount field
             ui.le_amount.setText('')
             ui.show()
+            ui.comboBox.setFocus()
         else:
             ui.close()
 
@@ -316,77 +318,91 @@ def ledger_transactions(uid=''):
             ledger.tableWidget.setItem(row_number, column_number, cell)
 
 
-def journal():
-    journalWindow = uic.loadUi('viewJournal.ui')
-    """calls sqlitehelper select"""
-    journalWindow.show()
-    # set as requested date and day name for that
-    journalWindow.label_date_day.setText(
-        str(datetime.date.today()) + '- ' + str(datetime.datetime.now(
-        ).strftime("%A")))
-    requested_date = str(datetime.date.today)  # TODO assign date picker
-    query = '''SELECT * FROM [transactions] WHERE [tdate] = ?;'''
-    param = (requested_date,)
-    try:
-        data = code.select(query, param)
-        print(data)  # debug
-    except sqlite3.Error as e:
-        print(e)
-
-    # load Add Trx in function
-    journalWindow.pb_newTrx_in.clicked.connect(add_transaction_in_ui)
-    # load Add Trx out function
-    journalWindow.pb_newTrx_out.clicked.connect(add_transaction_out_ui)
-
-
 def accounts():
     """loads accounts window"""
-    # load Accountslist UI
-    accountsWindow = uic.loadUi('viewAccounts.ui')
+    accounts_window = uic.loadUi('viewAccounts.ui')
+
     # UI Add New Account Dialogue
-    addacc = uic.loadUi('addAccountDialogue.ui')
-    accountsWindow.show()
+    add_acc_ui = uic.loadUi('addAccountDialogue.ui')
 
     def fetch_accounts():
         """populate accounts window table"""
-        accountsWindow.tableWidget.setRowCount(0)
-        query = '''SELECT * FROM accounts'''
+        accounts_window.tableWidget.setRowCount(0)
+        query = '''SELECT
+       [accounts].[name],
+       [accounts].[address],
+       [accounts].[mobile],
+       [balance].[balance_amount] FROM
+       [accounts]
+       INNER JOIN [balance] ON [accounts].[uid] = [balance].[uid]
+       ORDER BY [accounts].[name];
+
+'''
         try:
             data = code.select(query)
-            # accountsWindow.tableWidget.setColumnCount(2)
+            # accounts_window.tableWidget.setColumnCount(2)
             for row_number, row_data in enumerate(data):
-                accountsWindow.tableWidget.insertRow(row_number)
+                accounts_window.tableWidget.insertRow(row_number)
                 for column_number, info in enumerate(row_data):
                     celldata = QtWidgets.QTableWidgetItem(str(info))
-                    accountsWindow.tableWidget.setItem(
+                    accounts_window.tableWidget.setItem(
                         row_number, column_number, celldata)
-        except sqlite3.Error as e:
-            print('Error', e)
-        accountsWindow.tableWidget.setEditTriggers(
+        except sqlite3.Error as err:
+            print('Error', err)
+        accounts_window.tableWidget.setEditTriggers(
             QtWidgets.QTreeView.NoEditTriggers)
 
     fetch_accounts()
-    accountsWindow.pbViewAccountsRefresh.clicked.connect(fetch_accounts)
+    accounts_window.pbViewAccountsRefresh.clicked.connect(fetch_accounts)
 
-    def pbaddaccount_clicked():
+    def pb_add_account_clicked():
         """check/grab data and passes to sqliteHelper.insert_acc"""
-        name = str(addacc.ldname.text())
-        address = str(addacc.ldaddress.text())
-        mobile = str(addacc.ldmobile.text())
+        name = str(add_acc_ui.ldname.text())
+        address = str(add_acc_ui.ldaddress.text())
+        mobile = str(add_acc_ui.ldmobile.text())
         if name != '' and address != '':  # eliminates empty data
             data = (name, address, mobile)
             code.insert_account(data)
         else:
             print('Required fields are empty.')
-            addacc.show()
+            add_acc_ui.show()
         # after insert reset fields
-        addacc.ldname.setText('')
-        addacc.ldaddress.setText('')
-        addacc.ldmobile.setText('')
-        addacc.show()
-        addacc.ldname.setFocus()
+        add_acc_ui.ldname.setText('')
+        add_acc_ui.ldaddress.setText('')
+        add_acc_ui.ldmobile.setText('')
+        add_acc_ui.show()
+        add_acc_ui.ldname.setFocus()
 
-    # accountsWindow.pbViewAccountsRefresh.clicked.connect()
+    # accounts_window.pbViewAccountsRefresh.clicked.connect()
     # calls function to refresh account list
-    accountsWindow.pbAddAccount.clicked.connect(addacc.show)  # opens addAcc ui
-    addacc.buttonBox.accepted.connect(pbaddaccount_clicked)
+    accounts_window.pbAddAccount.clicked.connect(add_acc_ui.show)  # opens addAcc ui
+    add_acc_ui.buttonBox.accepted.connect(pb_add_account_clicked)
+    accounts_window.show()
+
+def init_ledger(uid = "52"):
+    global ledgerUi
+    ledgerUi = uic.loadUi("ledger.ui")
+    query = '''SELECT
+       [transactions].[tdate],
+       [transactions].[c_in],
+       [transactions].[c_out],
+       [transactions].[balance_payable],
+       [transactions].[balance_receivable]
+        FROM   [transactions] WHERE [transactions].[uid] = ?
+        ORDER BY [transactions].[tdate];'''
+    param = (uid, )
+    """data = transactions(uid)
+    for row_number, row_data in enumerate(data):
+        ledger.tableWidget.insertRow(row_number)
+        for column_number, column_data in enumerate(row_data):
+            cell = QtWidgets.QTableWidgetItem(str(column_data))
+            ledger.tableWidget.setItem(row_number, column_number, cell)"""
+    data = code.select(query, param)
+    for row_number, row_data in enumerate(data):
+        t_date, c_in, c_out, balance_payable, balance_receivable = row_data
+        ledgerUi.tableWidget.insertRow(row_number)
+        for column_number, column_data in enumerate(row_data):
+            cell = QtWidgets.QTableWidgetItem(str(column_data))
+            ledgerUi.tableWidget.setItem(row_number, column_number, cell)
+        print(str(row_data))
+    ledgerUi.show()

@@ -54,11 +54,6 @@
      </property>
      <column>
       <property name="text">
-       <string>UID</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
        <string>NAME</string>
       </property>
      </column>
@@ -70,6 +65,11 @@
      <column>
       <property name="text">
        <string>MOBILE</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>Dr/Cr</string>
       </property>
      </column>
     </widget>

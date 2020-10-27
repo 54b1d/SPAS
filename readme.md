@@ -34,3 +34,5 @@ insertTransactions in Journal
 
 
         inventory -	list stock items
+        
+        #testCommitFromMGit

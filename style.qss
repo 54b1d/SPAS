@@ -1,8 +1,0 @@
-QWidget {
-    background-color: #AAAAAA;
-    color: black;
-}
-
-#groupBox_c_in {
-    background-color: #00aa00;
-}

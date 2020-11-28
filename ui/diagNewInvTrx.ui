@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>Form</class>
+    <widget class="QWidget" name="Form">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>392</width>
+                <height>430</height>
+            </rect>
+        </property>
+        <property name="font">
+            <font>
+                <family>SolaimanLipi</family>
+                <pointsize>12</pointsize>
+            </font>
+        </property>
+        <property name="windowTitle">
+            <string>Form</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+                <widget class="QLineEdit" name="lddate">
+                    <property name="focusPolicy">
+                        <enum>Qt::NoFocus</enum>
+                    </property>
+                    <property name="placeholderText">
+                        <string>তারিখ</string>
+                    </property>
+                </widget>
+            </item>
+            <item>
+                <widget class="QComboBox" name="comboNames">
+                    <property name="font">
+                        <font>
+                            <family>SolaimanLipi</family>
+                            <pointsize>14</pointsize>
+                        </font>
+                    </property>
+                    <property name="focusPolicy">
+                        <enum>Qt::StrongFocus</enum>
+                    </property>
+                </widget>
+            </item>
+            <item>
+                <widget class="QComboBox" name="comboProducts">
+                    <property name="font">
+                        <font>
+                            <family>SolaimanLipi</family>
+                            <pointsize>14</pointsize>
+                        </font>
+                    </property>
+                </widget>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                        <widget class="QLineEdit" name="ld_quantity">
+                            <property name="font">
+                                <font>
+                                    <pointsize>14</pointsize>
+                                </font>
+                            </property>
+                            <property name="placeholderText">
+                                <string>Quantity (kg)*</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLineEdit" name="ld_rate">
+                            <property name="font">
+                                <font>
+                                    <pointsize>14</pointsize>
+                                </font>
+                            </property>
+                            <property name="placeholderText">
+                                <string>Rate (৳)*</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_6">
+                    <item>
+                        <widget class="QLineEdit" name="ldamount">
+                            <property name="font">
+                                <font>
+                                    <pointsize>14</pointsize>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                            <property name="placeholderText">
+                                <string>Total Amount (৳)*</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="pb_count">
+                            <property name="text">
+                                <string>Count</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                    <item>
+                        <widget class="QLineEdit" name="ld_cgs">
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="font">
+                                <font>
+                                    <pointsize>14</pointsize>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                            <property name="placeholderText">
+                                <string>Cost of goods sold</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QLineEdit" name="ld_profit">
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="font">
+                                <font>
+                                    <pointsize>14</pointsize>
+                                </font>
+                            </property>
+                            <property name="text">
+                                <string/>
+                            </property>
+                            <property name="placeholderText">
+                                <string>Profit</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_5">
+                    <item>
+                        <widget class="QLineEdit" name="ld_product_name">
+                            <property name="text">
+                                <string/>
+                            </property>
+                            <property name="placeholderText">
+                                <string>New Product Name</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QPushButton" name="pb_add_product">
+                            <property name="text">
+                                <string>Add Product</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </item>
+            <item>
+                <widget class="QTextEdit" name="tddesc">
+                    <property name="placeholderText">
+                        <string>মন্তব্য</string>
+                    </property>
+                </widget>
+            </item>
+            <item>
+                <widget class="QLabel" name="label_msg">
+                    <property name="text">
+                        <string>শেষ সংযোজনঃ নেই</string>
+                    </property>
+                </widget>
+            </item>
+            <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                    <item>
+                        <widget class="QRadioButton" name="rb_add_more">
+                            <property name="text">
+                                <string>আরো যোগ করুন</string>
+                            </property>
+                            <property name="checked">
+                                <bool>true</bool>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <layout class="QHBoxLayout" name="horizontalLayout">
+                            <item>
+                                <widget class="QPushButton" name="pb_ok">
+                                    <property name="text">
+                                        <string>OK</string>
+                                    </property>
+                                </widget>
+                            </item>
+                            <item>
+                                <widget class="QPushButton" name="pb_cancel">
+                                    <property name="text">
+                                        <string>Cancel</string>
+                                    </property>
+                                </widget>
+                            </item>
+                        </layout>
+                    </item>
+                </layout>
+            </item>
+        </layout>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

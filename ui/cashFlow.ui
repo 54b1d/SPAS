@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>CashFlowWidget</class>
+    <widget class="QWidget" name="CashFlowWidget">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>542</width>
+                <height>332</height>
+            </rect>
+        </property>
+        <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+            </sizepolicy>
+        </property>
+        <property name="windowTitle">
+            <string>Form</string>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+            <item>
+                <widget class="QFrame" name="frame">
+                    <property name="styleSheet">
+                        <string notr="true"/>
+                    </property>
+                    <property name="frameShape">
+                        <enum>QFrame::StyledPanel</enum>
+                    </property>
+                    <property name="frameShadow">
+                        <enum>QFrame::Raised</enum>
+                    </property>
+                    <layout class="QVBoxLayout" name="verticalLayout_2">
+                        <item>
+                            <layout class="QHBoxLayout" name="horizontalLayout">
+                                <item>
+                                    <widget class="QPushButton" name="pb_add_trx_in">
+                                        <property name="styleSheet">
+                                            <string notr="true">background-color: rgb(0, 170, 127);</string>
+                                        </property>
+                                        <property name="text">
+                                            <string>Receive</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <widget class="QPushButton" name="pb_add_trx_out">
+                                        <property name="styleSheet">
+                                            <string notr="true">background-color: rgb(255, 0, 127);</string>
+                                        </property>
+                                        <property name="text">
+                                            <string>Payment</string>
+                                        </property>
+                                    </widget>
+                                </item>
+                            </layout>
+                        </item>
+                        <item>
+                            <widget class="QPushButton" name="pb_cash_flow_refresh">
+                                <property name="styleSheet">
+                                    <string notr="true">background-color: rgb(170, 0, 255);</string>
+                                </property>
+                                <property name="text">
+                                    <string>Refresh</string>
+                                </property>
+                            </widget>
+                        </item>
+                        <item>
+                            <widget class="QTableWidget" name="table_cash_flow">
+                                <property name="styleSheet">
+                                    <string notr="true">color: rgb(255, 255, 255);
+                                        border-top-color: rgb(85, 255, 127);
+                                    </string>
+                                </property>
+                                <column>
+                                    <property name="text">
+                                        <string>Date</string>
+                                    </property>
+                                </column>
+                                <column>
+                                    <property name="text">
+                                        <string>Name</string>
+                                    </property>
+                                </column>
+                                <column>
+                                    <property name="text">
+                                        <string>Debit</string>
+                                    </property>
+                                </column>
+                                <column>
+                                    <property name="text">
+                                        <string>Credit</string>
+                                    </property>
+                                </column>
+                                <column>
+                                    <property name="text">
+                                        <string>Comment</string>
+                                    </property>
+                                </column>
+                            </widget>
+                        </item>
+                    </layout>
+                </widget>
+            </item>
+        </layout>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>

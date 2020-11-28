@@ -139,3 +139,7 @@ dmypy.json
 /.idea/workspace.xml
 /.idea/dictionaries/SABID.xml
 /.idea/dictionaries
+
+# Personal db
+*.db
+*.sqlite3

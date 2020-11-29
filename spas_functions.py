@@ -217,7 +217,6 @@ def init_cash_transaction(trx_type=None):
         if dr_uid != '' and cr_uid != '' and trx_date != '' and amount != '':
             # ^^^ eliminates empty data
             # insert transaction
-            # todo update fields according to function in SqliteHelper
             values = (trx_date, dr_uid, cr_uid, description,
                       amount, p_id, p_lott, quantity, cgs)
             if database.insert_transaction(values):
@@ -242,8 +241,7 @@ def init_cash_transaction(trx_type=None):
 
 
 def cash_flow_in_table(self):
-    # todo update query to match tableWidget
-    # set query to select all cash transactions with meta name
+    # set query to select all cash in transactions with meta name
     query = '''SELECT 
        [transactions].[date], 
        [accounts].[name],
@@ -262,8 +260,7 @@ FROM   [accounts]
 
 
 def cash_flow_out_table(self):
-    # todo update query to match tableWidget
-    # set query to select all cash transactions with meta name
+    # set query to select all cash out transactions with meta name
     query = '''SELECT 
        [transactions].[date], 
        [accounts].[name],

@@ -1,6 +1,15 @@
 # initial concept musicamante@stackoverflow
 # With some modification from my side @54b1d
 
+from functools import partial
+from PyQt5 import uic
+from PyQt5.QtWidgets import *
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime,
+                          QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent)
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase,
+                         QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
+
 # from pages.first import First
 # from pages.second import Second
 from ui_functions import *

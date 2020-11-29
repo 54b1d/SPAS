@@ -244,14 +244,33 @@ def init_cash_transaction(trx_type=None):
 def cash_flow_in_table(self):
     # todo update query to match tableWidget
     # set query to select all cash transactions with meta name
-    query = '''SELECT
-       [transactions].[date],
-       [transactions].[dr_uid],
-       [transactions].[cr_uid],
-       [transactions].[amount],
-       [transactions].[description]
-        FROM
-        [transactions] ORDER BY [transactions].[date] DESC;'''
+    query = '''SELECT 
+       [transactions].[date], 
+       [accounts].[name],
+       [transactions].[amount]
+FROM   [accounts]
+       INNER JOIN [transactions] ON [accounts].[uid] = [transactions].[cr_uid]
+        WHERE [transactions].[cr_uid] != '2' ORDER BY [transactions].[date] DESC;'''
+    param = ''
+    self.setRowCount(0)
+    out = database.select(query, param)
+    for row_number, row_data in enumerate(out):
+        self.insertRow(row_number)
+        for column_number, column_data in enumerate(row_data):
+            cell = QtWidgets.QTableWidgetItem(str(column_data))
+            self.setItem(row_number, column_number, cell)
+
+
+def cash_flow_out_table(self):
+    # todo update query to match tableWidget
+    # set query to select all cash transactions with meta name
+    query = '''SELECT 
+       [transactions].[date], 
+       [accounts].[name],
+       [transactions].[amount]
+FROM   [accounts]
+       INNER JOIN [transactions] ON [accounts].[uid] = [transactions].[dr_uid]
+        WHERE [transactions].[dr_uid] != '2' ORDER BY [transactions].[date] DESC;'''
     param = ''
     self.setRowCount(0)
     out = database.select(query, param)

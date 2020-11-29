@@ -241,7 +241,7 @@ def init_cash_transaction(trx_type=None):
     add_trx.pb_cancel.clicked.connect(lambda: add_trx.close())
 
 
-def cash_flow_table(self):
+def cash_flow_in_table(self):
     # todo update query to match tableWidget
     # set query to select all cash transactions with meta name
     query = '''SELECT

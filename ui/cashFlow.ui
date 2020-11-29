@@ -6,7 +6,7 @@
             <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>542</width>
+                <width>687</width>
                 <height>332</height>
             </rect>
         </property>
@@ -33,7 +33,7 @@
                     </property>
                     <layout class="QVBoxLayout" name="verticalLayout_2">
                         <item>
-                            <layout class="QHBoxLayout" name="horizontalLayout">
+                            <layout class="QHBoxLayout" name="horizontalLayout_2">
                                 <item>
                                     <widget class="QPushButton" name="pb_add_trx_in">
                                         <property name="styleSheet">
@@ -67,38 +67,76 @@
                             </widget>
                         </item>
                         <item>
-                            <widget class="QTableWidget" name="table_cash_flow">
-                                <property name="styleSheet">
-                                    <string notr="true">color: rgb(255, 255, 255);
-                                        border-top-color: rgb(85, 255, 127);
-                                    </string>
-                                </property>
-                                <column>
-                                    <property name="text">
-                                        <string>Date</string>
-                                    </property>
-                                </column>
-                                <column>
-                                    <property name="text">
-                                        <string>Name</string>
-                                    </property>
-                                </column>
-                                <column>
-                                    <property name="text">
-                                        <string>Debit</string>
-                                    </property>
-                                </column>
-                                <column>
-                                    <property name="text">
-                                        <string>Credit</string>
-                                    </property>
-                                </column>
-                                <column>
-                                    <property name="text">
-                                        <string>Comment</string>
-                                    </property>
-                                </column>
-                            </widget>
+                            <layout class="QHBoxLayout" name="horizontalLayout">
+                                <item>
+                                    <widget class="QTableWidget" name="table_cash_flow_in">
+                                        <property name="styleSheet">
+                                            <string notr="true">color: rgb(255, 255, 255);
+                                                border-top-color: rgb(85, 255, 127);
+                                            </string>
+                                        </property>
+                                        <column>
+                                            <property name="text">
+                                                <string>Date</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Name</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Debit</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Credit</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Comment</string>
+                                            </property>
+                                        </column>
+                                    </widget>
+                                </item>
+                                <item>
+                                    <widget class="QTableWidget" name="table_cash_flow_out">
+                                        <property name="styleSheet">
+                                            <string notr="true">color: rgb(255, 255, 255);
+                                                border-top-color: rgb(85, 255, 127);
+                                            </string>
+                                        </property>
+                                        <column>
+                                            <property name="text">
+                                                <string>Date</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Name</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Debit</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Credit</string>
+                                            </property>
+                                        </column>
+                                        <column>
+                                            <property name="text">
+                                                <string>Comment</string>
+                                            </property>
+                                        </column>
+                                    </widget>
+                                </item>
+                            </layout>
                         </item>
                     </layout>
                 </widget>

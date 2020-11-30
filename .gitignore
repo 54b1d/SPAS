@@ -140,3 +140,5 @@ dmypy.json
 /.idea/dictionaries/SABID.xml
 /.idea/dictionaries
 /SPASNew.db
+/test.py
+/Settings.ini

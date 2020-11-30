@@ -190,7 +190,7 @@ def init_cash_transaction(trx_type=None):
         add_trx.comboBox.addItem(name + ',' + address, uid)
 
     # declaring zero values before processing
-
+    # todo check if cash_uid not found
     cash_uid = get_uid_for(["Cash"])
 
     p_id = 0  # not for cash trx

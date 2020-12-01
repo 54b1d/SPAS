@@ -183,7 +183,7 @@ def init_cash_transaction(trx_type=None):
 
     # fetch names from db to populate dropdown list
     query = '''SELECT [accounts].[name], [accounts].[address], [accounts].[uid]
-    FROM [accounts] ORDER BY [accounts].[name]'''
+    FROM [accounts] WHERE [accounts].[group] = "PR" ORDER BY [accounts].[name];'''
     data = database.select(query)
     for out in data:
         name, address, uid = out

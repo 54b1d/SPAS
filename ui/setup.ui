@@ -51,11 +51,25 @@
                 </layout>
             </item>
             <item>
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
+                    <item>
+                        <widget class="QLabel" name="label_dbname_combo">
+                            <property name="text">
+                                <string>Use Existing Database:</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item>
+                        <widget class="QComboBox" name="combo_databases"/>
+                    </item>
+                </layout>
+            </item>
+            <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_3">
                     <item>
                         <widget class="QLabel" name="label_dbname">
                             <property name="text">
-                                <string>Preferred DB Name:</string>
+                                <string>New Database Name:</string>
                             </property>
                         </widget>
                     </item>

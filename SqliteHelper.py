@@ -2,6 +2,7 @@
 # Copyright SABID
 
 import sqlite3
+from setup import prerequisites
 
 
 class SqliteHelper:
@@ -250,4 +251,5 @@ def transactions(uid=''):
             print(err)
 
 
-database = SqliteHelper("SPASNew.db")
+dbname = str(prerequisites())
+database = SqliteHelper(dbname)

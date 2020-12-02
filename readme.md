@@ -4,7 +4,7 @@
 
 A simple accounting software for business with inventory.
 I started building this software keeping my needs in mind.
-It doesn't follow many accounting rules.
+It may not follow standard accounting procedures.
 So, use it with caution.
 
 

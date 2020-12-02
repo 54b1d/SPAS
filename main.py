@@ -1,3 +1,4 @@
+from setup import prerequisites
 from functools import partial
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
@@ -32,5 +33,6 @@ class MainWindow(QMainWindow):
 if __name__ == '__main__':
     app = QApplication([])
     window = MainWindow()
-    window.show()
+    if prerequisites():
+        window.show()
     app.exec_()

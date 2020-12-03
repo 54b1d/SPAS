@@ -12,25 +12,25 @@ from main import *
 
 class UIFunctions(MainWindow):
 
-    def toggleMenu(self, maxWidth, enable):
+    def toggleMenu(self, maxHeight, enable):
         if enable:
 
             # GET WIDTH
-            width = self.frame_left_menu.width()
-            maxExtend = maxWidth
-            standard = 70
+            height = self.Top_Bar.height()
+            maxExtend = maxHeight
+            standard = 40
 
             # SET MAX WIDTH
-            if width == 70:
-                widthExtended = maxExtend
+            if height == 40:
+                heightExtended = maxExtend
             else:
-                widthExtended = standard
+                heightExtended = standard
 
             # ANIMATION
             self.animation = QPropertyAnimation(
-                self.frame_left_menu, b"minimumWidth")
+                self.Top_Bar, b"minimumHeight")
             self.animation.setDuration(400)
-            self.animation.setStartValue(width)
-            self.animation.setEndValue(widthExtended)
+            self.animation.setStartValue(height)
+            self.animation.setEndValue(heightExtended)
             self.animation.setEasingCurve(QtCore.QEasingCurve.InOutQuart)
             self.animation.start()

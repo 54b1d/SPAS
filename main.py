@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         # load Main Window UI here
         uic.loadUi('ui/mainWindow.ui', self)
         self.Btn_Toggle.clicked.connect(
-            lambda: UIFunctions.toggleMenu(self, 250, True))
+            lambda: UIFunctions.toggleMenu(self, 70, True))
 
         # list buttons available in main ui
         buttons = (self.pb_home, self.pb_cash_flow,

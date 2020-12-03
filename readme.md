@@ -15,3 +15,11 @@ So, use it with caution.
 `PR: Payable/Receivable accounts`
 
 `trx: transaction`
+
+
+**TODO**
+
+`Add Account Dialogue`
+`Account Summary Page`
+`Daily Transactions Page`
+`Inventory Page`

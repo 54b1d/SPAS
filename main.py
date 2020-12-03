@@ -22,7 +22,9 @@ class MainWindow(QMainWindow):
             lambda: UIFunctions.toggleMenu(self, 250, True))
 
         # list buttons available in main ui
-        buttons = (self.pb_home, self.pb_cash_flow, self.pb_buy_sale)
+        buttons = (self.pb_home, self.pb_cash_flow,
+                   self.pb_buy_sale, self.pb_accounts,
+                   self.pb_reports, self.pb_settings)
 
         # button actions
         for i, button in enumerate(buttons):

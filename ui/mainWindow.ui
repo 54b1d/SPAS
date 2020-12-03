@@ -208,21 +208,6 @@
              <enum>QFrame::Raised</enum>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_4">
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
              <item>
               <widget class="QPushButton" name="pb_home">
                <property name="minimumSize">
@@ -295,6 +280,78 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QPushButton" name="pb_accounts">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+                 color: rgb(255, 255, 255);
+                 background-color: rgb(35, 35, 35);
+                 border: 0px solid;
+                 }
+                 QPushButton:hover {
+                 background-color: rgb(85, 170, 255);
+                 }
+                </string>
+               </property>
+               <property name="text">
+                <string>Accounts</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pb_reports">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+                 color: rgb(255, 255, 255);
+                 background-color: rgb(35, 35, 35);
+                 border: 0px solid;
+                 }
+                 QPushButton:hover {
+                 background-color: rgb(85, 170, 255);
+                 }
+                </string>
+               </property>
+               <property name="text">
+                <string>Reports</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pb_settings">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>40</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {
+                 color: rgb(255, 255, 255);
+                 background-color: rgb(35, 35, 35);
+                 border: 0px solid;
+                 }
+                 QPushButton:hover {
+                 background-color: rgb(85, 170, 255);
+                 }
+                </string>
+               </property>
+               <property name="text">
+                <string>Settings</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </item>
@@ -318,6 +375,9 @@
             <widget class="HomePage" name="homeObj"/>
             <widget class="CashFlow" name="cashFlowObj"/>
             <widget class="BuySale" name="buySaleObj"/>
+            <widget class="AccountsPage" name="accountsObj"/>
+            <widget class="Reports" name="reportsObj"/>
+            <widget class="Settings" name="settingsObj"/>
            </widget>
           </item>
          </layout>
@@ -346,6 +406,24 @@
    <class>BuySale</class>
    <extends>QWidget</extends>
    <header>pages/buysalepage</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>AccountsPage</class>
+   <extends>QWidget</extends>
+   <header>pages/accountspage</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Reports</class>
+   <extends>QWidget</extends>
+   <header>pages/reportspage</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Settings</class>
+   <extends>QWidget</extends>
+   <header>pages/settingspage</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

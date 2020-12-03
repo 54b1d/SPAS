@@ -1,11 +1,11 @@
-from PyQt5 import QtWidgets, uic
-
-qtCreatorFile = "./ui/settings.ui"  # Enter file here.
-Ui_Settings, QtBaseClass = uic.loadUiType(qtCreatorFile)
+from PyQt5 import uic
+from PyQt5.QtWidgets import QWidget
 
 
-class SettingsWidget(QtWidgets.QMainWindow, Ui_Settings):
-    def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
-        Ui_Settings.__init__(self)
-        self.setupUi(self)
+class Settings(QWidget):
+    # Class name is important as its imported
+    # to __main__ as it is
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        uic.loadUi('ui/settings.ui', self)

@@ -1,11 +1,11 @@
-from PyQt5 import QtWidgets, uic
-
-qtCreatorFile = "./ui/reports.ui"  # Enter file here.
-Ui_Reports, QtBaseClass = uic.loadUiType(qtCreatorFile)
+from PyQt5 import uic
+from PyQt5.QtWidgets import QWidget
 
 
-class ReportsWidget(QtWidgets.QMainWindow, Ui_Reports):
-    def __init__(self):
-        QtWidgets.QMainWindow.__init__(self)
-        Ui_Reports.__init__(self)
-        self.setupUi(self)
+class Reports(QWidget):
+    # Class name is important as its imported
+    # to __main__ as it is
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        uic.loadUi('ui/reports.ui', self)

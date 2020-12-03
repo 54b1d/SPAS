@@ -246,7 +246,7 @@ def cash_flow_in_table(self):
        [transactions].[date], 
        [accounts].[name],
        [transactions].[amount]
-FROM   [accounts]
+        FROM   [accounts]
        INNER JOIN [transactions] ON [accounts].[uid] = [transactions].[cr_uid]
         WHERE [transactions].[cr_uid] != '2' ORDER BY [transactions].[date] DESC;'''
     param = ''
@@ -265,7 +265,7 @@ def cash_flow_out_table(self):
        [transactions].[date], 
        [accounts].[name],
        [transactions].[amount]
-FROM   [accounts]
+        FROM   [accounts]
        INNER JOIN [transactions] ON [accounts].[uid] = [transactions].[dr_uid]
         WHERE [transactions].[dr_uid] != '2' ORDER BY [transactions].[date] DESC;'''
     param = ''

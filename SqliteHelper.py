@@ -2,6 +2,7 @@
 # Copyright SABID
 
 import sqlite3
+
 from setup import prerequisites
 
 
@@ -69,29 +70,30 @@ class SqliteHelper:
     def insert_account(self, data):
         """Insert Account Information with balance table entry"""
         c = self.cursor
-        query = '''INSERT INTO [accounts] ([name], [address], [mobile])
-                VALUES (?, ? ,?)'''
+        query = '''INSERT INTO [accounts]
+                ([name], [address], [mobile], [group])
+                VALUES (?, ? ,?, ?)'''
         try:
             c.execute(query, data)
-            try:
-                query = '''SELECT [accounts].[uid]
-                FROM [accounts] WHERE ROWID = ?'''
-                param = (c.lastrowid,)
-                for result in database.select(query, param):
-                    uid = result[0]
-                    print(uid)
-                    # create entry in balance table
-                    query = '''INSERT INTO [balance]
-                    VALUES (?, ?, ?)'''
-                    # primary zero value for debit and credit
-                    param = (uid, 0, 0)
-                    try:
-                        c.execute(query, param)
-                        print("balance entry created with 0 balance")
-                    except sqlite3.Error as err:
-                        print(err)
-            except sqlite3.Error as err:
-                print(err)
+            """try:
+                                                    query = '''SELECT [accounts].[uid]
+                                                    FROM [accounts] WHERE ROWID = ?'''
+                                                    param = (c.lastrowid,)
+                                                    for result in database.select(query, param):
+                                                        uid = result[0]
+                                                        print(uid)
+                                                        # create entry in balance table
+                                                        query = '''INSERT INTO [balance]
+                                                        VALUES (?, ?, ?)'''
+                                                        # primary zero value for debit and credit
+                                                        param = (uid, 0, 0)
+                                                        try:
+                                                            c.execute(query, param)
+                                                            print("balance entry created with 0 balance")
+                                                        except sqlite3.Error as err:
+                                                            print(err)
+                                                except sqlite3.Error as err:
+                                                    print(err)"""
             self.conn.commit()
             print("Account information inserted successfully.")
         except sqlite3.Error as err:

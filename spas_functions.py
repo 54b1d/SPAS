@@ -86,6 +86,40 @@ def fetch_accounts(table):
         QtWidgets.QTreeView.NoEditTriggers)
 
 
+def init_add_account():
+    add_account_ui = uic.loadUi('ui/diagNewAccount.ui')
+    add_account_ui.show()
+
+    # todo get items from settings configuration
+    add_account_ui.comboGroup.addItem("Payable/Receivable", "PR")
+
+    def confirmed():
+        name = add_account_ui.ld_name.text()
+        address = add_account_ui.ld_address.text()
+        mobile = add_account_ui.ld_mobile.text()
+        group = add_account_ui.comboGroup.currentData()
+        if name != '' and address != '':  # eliminates empty data
+            data = (name, address, mobile, group)
+            try:
+                database.insert_account(data)
+                msg = name + "- Added successfully."
+                add_account_ui.label_msg.setText(msg)
+                # after insert reset fields
+                add_account_ui.ld_name.setText('')
+                add_account_ui.ld_address.setText('')
+                add_account_ui.ld_mobile.setText('')
+                add_account_ui.ld_name.setFocus()
+            except sqlite3.Error as err:
+                add_account_ui.label_msg.setText(err)
+        else:
+            msg = 'Required fields are empty.'
+            add_account_ui.show()
+            add_account_ui.label_msg.setText(msg)
+
+    add_account_ui.pb_confirm.clicked.connect(confirmed)
+    add_account_ui.pb_cancel.clicked.connect(lambda: add_account_ui.close())
+
+
 # get uid for specific Name supplied
 def get_uid_for(name=None):
     query = '''SELECT [accounts].[uid] FROM [accounts] WHERE [name] = ?'''
@@ -207,37 +241,3 @@ def cash_flow_out_table(self):
         for column_number, column_data in enumerate(row_data):
             cell = QtWidgets.QTableWidgetItem(str(column_data))
             self.setItem(row_number, column_number, cell)
-
-
-def init_add_account():
-    add_account_ui = uic.loadUi('ui/diagNewAccount.ui')
-    add_account_ui.show()
-    # after insert reset fields
-    add_account_ui.ld_name.setText('')
-    add_account_ui.ld_address.setText('')
-    add_account_ui.ld_mobile.setText('')
-    add_account_ui.ld_name.setFocus()
-
-    # todo get items from settings configuration
-    add_account_ui.comboGroup.addItem("Payable/Receivable", "PR")
-
-    def confirmed():
-        name = add_account_ui.ld_name.text()
-        address = add_account_ui.ld_address.text()
-        mobile = add_account_ui.ld_mobile.text()
-        group = add_account_ui.comboGroup.currentData()
-        if name != '' and address != '':  # eliminates empty data
-            data = (name, address, mobile, group)
-            try:
-                database.insert_account(data)
-                msg = name + "- Added successfully."
-                add_account_ui.label_msg.setText(msg)
-            except sqlite3.Error as err:
-                add_account_ui.label_msg.setText(err)
-        else:
-            msg = 'Required fields are empty.'
-            add_account_ui.show()
-            add_account_ui.label_msg.setText(msg)
-
-    add_account_ui.pb_confirm.clicked.connect(confirmed)
-    add_account_ui.pb_cancel.clicked.connect(lambda: add_account_ui.close())

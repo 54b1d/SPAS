@@ -12,4 +12,5 @@ class AccountsPage(QWidget):
         super().__init__(*args, **kwargs)
         uic.loadUi('ui/accounts.ui', self)
         fetch_accounts(self.table_accounts)
-        self.pb_add_account.clicked.connect(init_add_account)
+        self.pb_refresh_accounts.clicked.connect(lambda: fetch_accounts(self.table_accounts))
+        self.pb_add_account.clicked.connect(lambda: init_add_account(self.table_accounts))

@@ -71,7 +71,7 @@ def fetch_accounts(table):
    [accounts].[name], 
    [accounts].[address], 
    [accounts].[mobile]
-    FROM   [accounts];'''
+    FROM   [accounts] ORDER BY [accounts].[name];'''
     try:
         data = database.select(query)
         # accounts_window.tableWidget.setColumnCount(2)

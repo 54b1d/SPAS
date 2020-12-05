@@ -65,6 +65,7 @@ def ledger_transactions(uid=''):
 
 def fetch_accounts(table):
     """populate accounts window table"""
+    print("Fetching accounts table items")
     table.setRowCount(0)
     query = '''SELECT 
    [accounts].[name], 
@@ -86,7 +87,7 @@ def fetch_accounts(table):
         QtWidgets.QTreeView.NoEditTriggers)
 
 
-def init_add_account():
+def init_add_account(table):
     add_account_ui = uic.loadUi('ui/diagNewAccount.ui')
     add_account_ui.show()
 
@@ -109,6 +110,7 @@ def init_add_account():
                 add_account_ui.ld_address.setText('')
                 add_account_ui.ld_mobile.setText('')
                 add_account_ui.ld_name.setFocus()
+                fetch_accounts(table)
             except sqlite3.Error as err:
                 add_account_ui.label_msg.setText(err)
         else:

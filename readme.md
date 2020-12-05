@@ -1,12 +1,9 @@
-**SPAS (Sole Proprietorship Accounting Software)**
+# SPAS (Sole Proprietorship Accounting Software)
 
 `**Very Experimental Software As Of Now.**`
 
-A simple accounting software for business with inventory.
-I started building this software keeping my needs in mind.
-It may not follow standard accounting procedures.
-So, use it with caution.
-
+A simple accounting software for business with inventory. I started building this software as a learning project keeping
+my needs in mind. It may not follow standard accounting procedures. So, use it with caution.
 
 **Accounts Grouping & Elaborations:**
 
@@ -16,10 +13,31 @@ So, use it with caution.
 
 `trx: transaction`
 
+# TODO
 
-**TODO**
+**Database**
 
-`Add Account Dialogue`
-`Account Summary Page`
-`Daily Transactions Page`
-`Inventory Page`
+**Accounts**
+
+`Account grouping, sub-grouping`
+
+`Account Summary Page` :
+
+Show current balance next to name.
+
+Click on account name to open account ledger.
+
+**Cash Flow**
+
+~~Cash Transactions table~~
+
+~~Add Cash Transaction~~
+
+**Buy Sale**
+
+Inventory Page:
+
+`Inventory status on top. Available products with quantity.`
+
+`Add inventory buy-sale button.`
+

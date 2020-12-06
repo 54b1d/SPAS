@@ -248,8 +248,77 @@ def cash_flow_out_table(self):
 def init_inv_transaction(var):
     ui = uic.loadUi('ui/diagNewInvTrx.ui')
     ui.show()
+    # set window title
     if var == "BUY":
         print("Buy")
+        ui.setWindowTitle("Buy Form")
     elif var == "SALE":
         print("Sale")
+        ui.setWindowTitle("Sale Form")
+    # set to today's date
+    ui.ld_date.setText(str(datetime.date.today()))
+
+    # fetch accounts
+    query = '''SELECT [accounts].[name], [accounts].[address], [accounts].[uid]
+        FROM [accounts] WHERE [accounts].[group] = "PR" ORDER BY [accounts].[name];'''
+    data = database.select(query)
+    # fill comboNames with accounts
+    for out in data:
+        name, address, uid = out
+        ui.comboNames.addItem(name + ',' + address, uid)
+
+    # fill comboProducts
+    query = '''SELECT 
+       [inventory].[product_id], 
+       [inventory].[product_name]
+        FROM   [inventory];'''
+    data = database.select(query)
+    for out in data:
+        p_id, p_name = out
+        ui.comboProducts.addItem(p_name, p_id)
+
+    # todo fill ld_cgs on comboProduct changeSignal
+
+    ui.comboProducts.currentIndexChanged.connect(lambda: update_cgs())
+
+    def update_cgs():
+        product_id = ui.comboProducts.itemData(ui.comboProducts.currentData())
+        cgs = get_cgs(product_id)
+        ui.ld_cgs.setText(str(cgs))
+
+    # todo set placeholder data for required variables
+    '''
+    date, debit_uid, credit_uid, amount, p_id, p_lott, quantity, cgs
+    sales - cgs - costs = profit/loss
+    '''
+
+    def inv_trx_confirmed():
+        trx_date = ui.ld_date.text()
+        quantity = ui.ld_quantity.text()
+        if var == "BUY":
+            debit_uid = 'inventory'
+            credit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
+        else:
+            debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
+            credit_uid = 'inventory'
+
+        print(" Date:", trx_date, "\n Debit:", debit_uid, "\n Credit:", credit_uid, "\nQuantity:", quantity)
+
+    ui.pb_ok.clicked.connect(inv_trx_confirmed)
     ui.pb_cancel.clicked.connect(lambda: ui.close())
+
+
+def get_cgs(p_id):
+    # get product quantity and amount
+    query = '''SELECT [inventory].[cgs]
+            FROM   [inventory] WHERE [inventory].[product_id] = ?;'''
+    param = str(p_id)
+    print("P_ID = ", p_id)
+    data = database.select(query, param)
+    for x, y in enumerate(data):
+        for a, b in enumerate(y):
+            cgs = b
+    print(cgs)
+    # divide them and get cgs
+    # return cgs
+    return cgs

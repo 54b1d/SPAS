@@ -1,34 +1,108 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
-    <class>BuySaleWidget</class>
-    <widget class="QWidget" name="BuySaleWidget">
-        <property name="geometry">
-            <rect>
-                <x>0</x>
-                <y>0</y>
-                <width>353</width>
-                <height>323</height>
-            </rect>
+ <class>BuySaleWidget</class>
+ <widget class="QWidget" name="BuySaleWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>491</width>
+    <height>348</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="styleSheet">
+      <string notr="true">background-color: rgb(45, 45, 45);
+       color: rgb(255, 255, 255);
+      </string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QFrame" name="frame_inv_status">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="windowTitle">
-            <string>Form</string>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
-            <item>
-                <widget class="QFrame" name="frame">
-                    <property name="styleSheet">
-                        <string notr="true">background-color: yellow;</string>
-                    </property>
-                    <property name="frameShape">
-                        <enum>QFrame::StyledPanel</enum>
-                    </property>
-                    <property name="frameShadow">
-                        <enum>QFrame::Raised</enum>
-                    </property>
-                </widget>
-            </item>
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <item>
+          <widget class="QPushButton" name="pb_refresh_inventory">
+           <property name="text">
+            <string>Refresh</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="table_inventory"/>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QPushButton" name="pb_buy">
+             <property name="text">
+              <string>Buy</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pb_sale">
+             <property name="text">
+              <string>Sale</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
         </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_transactions">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QTableWidget" name="table_inventory_buy"/>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="table_inventory_sale"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
     </widget>
-    <resources/>
-    <connections/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
 </ui>

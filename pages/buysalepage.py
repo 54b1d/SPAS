@@ -1,6 +1,8 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget
 
+from spas_functions import init_inv_transaction
+
 
 class BuySale(QWidget):
     # Class name is important as its imported
@@ -9,3 +11,5 @@ class BuySale(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         uic.loadUi('ui/buySale.ui', self)
+        self.pb_buy.clicked.connect(lambda: init_inv_transaction("BUY"))
+        self.pb_sale.clicked.connect(lambda: init_inv_transaction("SALE"))

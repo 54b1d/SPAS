@@ -243,3 +243,13 @@ def cash_flow_out_table(self):
         for column_number, column_data in enumerate(row_data):
             cell = QtWidgets.QTableWidgetItem(str(column_data))
             self.setItem(row_number, column_number, cell)
+
+
+def init_inv_transaction(var):
+    ui = uic.loadUi('ui/diagNewInvTrx.ui')
+    ui.show()
+    if var == "BUY":
+        print("Buy")
+    elif var == "SALE":
+        print("Sale")
+    ui.pb_cancel.clicked.connect(lambda: ui.close())

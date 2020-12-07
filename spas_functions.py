@@ -246,6 +246,58 @@ def cash_flow_out_table(self):
 
 
 def init_inv_transaction(var):
+    def update_cgs():
+        product_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
+        quantity = ui.ld_quantity.text()
+        cgs = get_cgs(product_id, quantity)
+        ui.ld_cgs.setText(str(cgs))
+
+    def count_rate():
+        # amount / quantity
+        amount = ui.ld_amount.text()
+        quantity = ui.ld_quantity.text()
+        if amount and quantity:
+            rate = float(amount) / float(quantity)
+            ui.ld_rate.setText(str(rate))
+
+    def count_amount():
+
+        # quantity * rate = total
+        # total / quantity = rate
+
+        quantity = ui.ld_quantity.text()
+        rate = ui.ld_rate.text()
+        if quantity and rate:
+            amount = float(quantity) * float(rate)
+            ui.ld_amount.setText(str(amount))
+
+    def count_profit():
+        amount = ui.ld_amount.text()
+        cgs = ui.ld_cgs.text()
+        diff = float(amount) - float(cgs)
+        if diff > 0:
+            profit = diff
+            ui.ld_profit.setText(str(profit))
+        elif diff < 0:
+            loss = diff
+            ui.ld_profit.setText(str(loss))
+        else:
+            balanced = diff
+            ui.ld_profit.setText(str(balanced))
+
+    def inv_trx_confirmed():
+        trx_date = ui.ld_date.text()
+        quantity = ui.ld_quantity.text()
+        amount = float(ui.ld_amount.text())  # float to get decimal point
+        if var == "BUY":
+            debit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
+            credit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
+        else:
+            debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
+            credit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
+
+        print(" Date:", trx_date, "\n Debit:", debit_uid, "\n Credit:", credit_uid, "\nQuantity:", quantity)
+
     ui = uic.loadUi('ui/diagNewInvTrx.ui')
     ui.show()
     # set window title
@@ -260,7 +312,7 @@ def init_inv_transaction(var):
 
     # fetch accounts
     query = '''SELECT [accounts].[name], [accounts].[address], [accounts].[uid]
-        FROM [accounts] WHERE [accounts].[group] = "PR" ORDER BY [accounts].[name];'''
+            FROM [accounts] WHERE [accounts].[group] = "PR" ORDER BY [accounts].[name];'''
     data = database.select(query)
     # fill comboNames with accounts
     for out in data:
@@ -269,9 +321,9 @@ def init_inv_transaction(var):
 
     # fill comboProducts
     query = '''SELECT 
-       [inventory].[product_id], 
-       [inventory].[product_name]
-        FROM   [inventory];'''
+           [inventory].[product_id], 
+           [inventory].[product_name]
+            FROM   [inventory];'''
     data = database.select(query)
     for out in data:
         p_id, p_name = out
@@ -279,13 +331,8 @@ def init_inv_transaction(var):
 
     # todo fill ld_cgs on comboProduct changeSignal
     ui.comboProducts.currentIndexChanged.connect(lambda: update_cgs())
-
-    def update_cgs():
-        product_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-        quantity = ui.ld_quantity.text()
-        cgs = get_cgs(product_id, quantity)
-        ui.ld_cgs.setText(str(cgs))
-
+    # update cgs on load
+    update_cgs()
     ui.ld_quantity.textChanged.connect(update_cgs)
     # todo set placeholder data for required variables
     '''
@@ -293,32 +340,9 @@ def init_inv_transaction(var):
     sales - cgs - costs = profit/loss
     '''
 
-    def inv_trx_confirmed():
-        trx_date = ui.ld_date.text()
-        quantity = ui.ld_quantity.text()
-        amount = ui.ld_amount.text()
-        if var == "BUY":
-            debit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-            credit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
-        else:
-            debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
-            credit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-
-        print(" Date:", trx_date, "\n Debit:", debit_uid, "\n Credit:", credit_uid, "\nQuantity:", quantity)
-
-    def count():
-
-        # quantity * rate = total
-        # total / quantity = rate
-
-        quantity = ui.ld_quantity.text()
-        rate = ui.ld_rate.text()
-        amount = ui.ld_amount.text()
-        if quantity and rate:
-            amount = int(quantity) * int(rate)
-            ui.ld_amount.setText(str(amount))
-
-    ui.pb_count.clicked.connect(count)
+    ui.pb_count.clicked.connect(count_amount)
+    ui.ld_amount.textChanged.connect(count_rate)
+    ui.ld_amount.textChanged.connect(count_profit)
     ui.pb_ok.clicked.connect(inv_trx_confirmed)
     ui.pb_cancel.clicked.connect(lambda: ui.close())
 

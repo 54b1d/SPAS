@@ -276,7 +276,7 @@ def init_inv_transaction(var):
         cgs = ui.ld_cgs.text()
         diff = float(amount) - float(cgs)
         if diff > 0:
-            profit = diff
+            profit = float(diff)
             ui.ld_profit.setText(str(profit))
         elif diff < 0:
             loss = diff
@@ -289,14 +289,18 @@ def init_inv_transaction(var):
         trx_date = ui.ld_date.text()
         quantity = ui.ld_quantity.text()
         amount = float(ui.ld_amount.text())  # float to get decimal point
+        description = ui.ld_desc.text()
+        p_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
+        p_lott = 'NA'
+        cgs = ui.ld_cgs.text()
         if var == "BUY":
             debit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
             credit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
         else:
             debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
             credit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-
-        print(" Date:", trx_date, "\n Debit:", debit_uid, "\n Credit:", credit_uid, "\nQuantity:", quantity)
+        data = trx_date, debit_uid, credit_uid, description, amount, p_id, p_lott, quantity, cgs
+        print(str(data))
 
     ui = uic.loadUi('ui/diagNewInvTrx.ui')
     ui.show()
@@ -329,7 +333,7 @@ def init_inv_transaction(var):
         p_id, p_name = out
         ui.comboProducts.addItem(p_name, p_id)
 
-    # todo fill ld_cgs on comboProduct changeSignal
+    # fill ld_cgs on comboProduct changeSignal
     ui.comboProducts.currentIndexChanged.connect(lambda: update_cgs())
     # update cgs on load
     update_cgs()

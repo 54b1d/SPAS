@@ -6,8 +6,8 @@
             <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>392</width>
-                <height>430</height>
+                <width>385</width>
+                <height>328</height>
             </rect>
         </property>
         <property name="font">
@@ -164,11 +164,7 @@
                 </layout>
             </item>
             <item>
-                <widget class="QTextEdit" name="td_desc">
-                    <property name="placeholderText">
-                        <string>মন্তব্য</string>
-                    </property>
-                </widget>
+                <widget class="QLineEdit" name="ld_desc"/>
             </item>
             <item>
                 <widget class="QLabel" name="label_msg">

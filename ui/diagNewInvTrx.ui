@@ -68,6 +68,9 @@
                                     <pointsize>14</pointsize>
                                 </font>
                             </property>
+                            <property name="text">
+                                <string/>
+                            </property>
                             <property name="placeholderText">
                                 <string>Quantity (kg)*</string>
                             </property>
@@ -80,6 +83,9 @@
                                     <family>SolaimanLipi</family>
                                     <pointsize>14</pointsize>
                                 </font>
+                            </property>
+                            <property name="text">
+                                <string/>
                             </property>
                             <property name="placeholderText">
                                 <string>Rate (৳)*</string>

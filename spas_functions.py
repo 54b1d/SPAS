@@ -278,14 +278,15 @@ def init_inv_transaction(var):
         ui.comboProducts.addItem(p_name, p_id)
 
     # todo fill ld_cgs on comboProduct changeSignal
-
     ui.comboProducts.currentIndexChanged.connect(lambda: update_cgs())
 
     def update_cgs():
-        product_id = ui.comboProducts.itemData(ui.comboProducts.currentData())
-        cgs = get_cgs(product_id)
+        product_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
+        quantity = ui.ld_quantity.text()
+        cgs = get_cgs(product_id, quantity)
         ui.ld_cgs.setText(str(cgs))
 
+    ui.ld_quantity.textChanged.connect(update_cgs)
     # todo set placeholder data for required variables
     '''
     date, debit_uid, credit_uid, amount, p_id, p_lott, quantity, cgs
@@ -295,30 +296,46 @@ def init_inv_transaction(var):
     def inv_trx_confirmed():
         trx_date = ui.ld_date.text()
         quantity = ui.ld_quantity.text()
+        amount = ui.ld_amount.text()
         if var == "BUY":
-            debit_uid = 'inventory'
+            debit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
             credit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
         else:
             debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
-            credit_uid = 'inventory'
+            credit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
 
         print(" Date:", trx_date, "\n Debit:", debit_uid, "\n Credit:", credit_uid, "\nQuantity:", quantity)
 
+    def count():
+
+        # quantity * rate = total
+        # total / quantity = rate
+
+        quantity = ui.ld_quantity.text()
+        rate = ui.ld_rate.text()
+        amount = ui.ld_amount.text()
+        if quantity and rate:
+            amount = int(quantity) * int(rate)
+            ui.ld_amount.setText(str(amount))
+
+    ui.pb_count.clicked.connect(count)
     ui.pb_ok.clicked.connect(inv_trx_confirmed)
     ui.pb_cancel.clicked.connect(lambda: ui.close())
 
 
-def get_cgs(p_id):
+def get_cgs(p_id, quantity):
+    if quantity == '':
+        quantity = 0
     # get product quantity and amount
-    query = '''SELECT [inventory].[cgs]
+    query = '''SELECT [inventory].[product_quantity], [inventory].[cgs]
             FROM   [inventory] WHERE [inventory].[product_id] = ?;'''
     param = str(p_id)
     print("P_ID = ", p_id)
     data = database.select(query, param)
     for x, y in enumerate(data):
-        for a, b in enumerate(y):
-            cgs = b
-    print(cgs)
-    # divide them and get cgs
+        gross_quantity, gross_cgs = y
+    # divide them and multiply by quantity and get cgs
+    cgs = int(gross_cgs) / int(gross_quantity) * int(quantity)
+    print("CGS: ", cgs)
     # return cgs
     return cgs

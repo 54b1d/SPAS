@@ -145,8 +145,10 @@ def init_cash_transaction(trx_type=None):
     add_trx.show()
     if trx_type == "IN":
         add_trx.setWindowTitle("নগদ জমা")
+        trx_tag = "cash_in"
     else:
         add_trx.setWindowTitle("নগদ পরিশোধ")
+        trx_tag = "cash_out"
     add_trx.lddate.setText(str(datetime.date.today()))
 
     # fetch names from db to populate dropdown list
@@ -185,7 +187,7 @@ def init_cash_transaction(trx_type=None):
         if dr_uid != '' and cr_uid != '' and trx_date != '' and amount != '':
             # ^^^ eliminates empty data
             # insert transaction
-            values = (trx_date, dr_uid, cr_uid, description,
+            values = (trx_date, trx_tag, dr_uid, cr_uid, description,
                       amount, p_id, p_lott, quantity, cgs)
             if database.insert_transaction(values):
                 msg = "সংযোজিত হয়েছে।"
@@ -300,7 +302,7 @@ def init_inv_transaction(var):
         else:
             debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
             credit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-        param = trx_date, debit_uid, credit_uid, description, amount, p_id, p_lott, quantity, cgs
+        param = trx_date, trx_tag, debit_uid, credit_uid, description, amount, p_id, p_lott, quantity, cgs
         print(str(param))
         # todo store in database
         database.insert_transaction(param)
@@ -315,9 +317,11 @@ def init_inv_transaction(var):
     if var == "BUY":
         print("Buy")
         ui.setWindowTitle("Buy Form")
+        trx_tag = "buy"
     elif var == "SALE":
         print("Sale")
         ui.setWindowTitle("Sale Form")
+        trx_tag = "sale"
     # set to today's date
     ui.ld_date.setText(str(datetime.date.today()))
 

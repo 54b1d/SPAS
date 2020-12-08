@@ -41,10 +41,11 @@ class SqliteHelper:
         "cgs"	REAL NOT NULL DEFAULT 0
         );
         ''')
-        # todo add new column trx_tag {cash_in, cash_out, buy, sale}
+        # added new column trx_tag {cash_in, cash_out, buy, sale}
         c.execute('''CREATE TABLE IF NOT EXISTS "transactions" (
         "trx_id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
         "date"	DATE NOT NULL,
+        "trx_tag" VARCHAR NOT NULL,
         "dr_uid"	INTEGER NOT NULL,
         "cr_uid"	INTEGER NOT NULL,
         "description"	TEXT DEFAULT 'N/A',
@@ -120,8 +121,8 @@ class SqliteHelper:
         # INSERT INTO "main"."transactions"("date","dr_uid","cr_uid",
         # "description","amount","p_type", "quantity") VALUES (?,?,?,?,?,?,?);
         query = '''INSERT INTO "transactions"(
-        "date","dr_uid","cr_uid","description","amount","p_id", "p_lott", "quantity", "cgs")
-        VALUES (?,?,?,?,?,?,?,?,?);'''
+        "date", "trx_tag", "dr_uid","cr_uid","description","amount","p_id", "p_lott", "quantity", "cgs")
+        VALUES (?,?,?,?,?,?,?,?,?,?);'''
         try:
             c.execute(query, data)
             self.conn.commit()

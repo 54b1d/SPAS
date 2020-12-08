@@ -2,6 +2,7 @@ import datetime
 import sqlite3
 
 from PyQt5 import QtWidgets, uic
+from PyQt5.QtGui import QDoubleValidator
 
 from SqliteHelper import database, transactions
 
@@ -299,11 +300,17 @@ def init_inv_transaction(var):
         else:
             debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
             credit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-        data = trx_date, debit_uid, credit_uid, description, amount, p_id, p_lott, quantity, cgs
-        print(str(data))
+        param = trx_date, debit_uid, credit_uid, description, amount, p_id, p_lott, quantity, cgs
+        print(str(param))
+        # todo store in database
+        database.insert_transaction(param)
 
     ui = uic.loadUi('ui/diagNewInvTrx.ui')
-    ui.show()
+    # set float validators
+    double_validator = QDoubleValidator(0.0, 9.9, 2)
+    ui.ld_quantity.setValidator(double_validator)
+    ui.ld_amount.setValidator(double_validator)
+    ui.ld_rate.setValidator(double_validator)
     # set window title
     if var == "BUY":
         print("Buy")
@@ -333,17 +340,16 @@ def init_inv_transaction(var):
         p_id, p_name = out
         ui.comboProducts.addItem(p_name, p_id)
 
+    # show ui
+    ui.show()
+
     # fill ld_cgs on comboProduct changeSignal
     ui.comboProducts.currentIndexChanged.connect(lambda: update_cgs())
+
     # update cgs on load
     update_cgs()
-    ui.ld_quantity.textChanged.connect(update_cgs)
-    # todo set placeholder data for required variables
-    '''
-    date, debit_uid, credit_uid, amount, p_id, p_lott, quantity, cgs
-    sales - cgs - costs = profit/loss
-    '''
 
+    ui.ld_quantity.textChanged.connect(update_cgs)
     ui.pb_count.clicked.connect(count_amount)
     ui.ld_amount.textChanged.connect(count_rate)
     ui.ld_amount.textChanged.connect(count_profit)
@@ -363,7 +369,7 @@ def get_cgs(p_id, quantity):
     for x, y in enumerate(data):
         gross_quantity, gross_cgs = y
     # divide them and multiply by quantity and get cgs
-    cgs = int(gross_cgs) / int(gross_quantity) * int(quantity)
+    cgs = float(gross_cgs) / float(gross_quantity) * float(quantity)
     print("CGS: ", cgs)
     # return cgs
     return cgs

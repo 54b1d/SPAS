@@ -41,7 +41,7 @@ class SqliteHelper:
         "cgs"	REAL NOT NULL DEFAULT 0
         );
         ''')
-
+        # todo add new column trx_tag {cash_in, cash_out, buy, sale}
         c.execute('''CREATE TABLE IF NOT EXISTS "transactions" (
         "trx_id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
         "date"	DATE NOT NULL,
@@ -113,7 +113,6 @@ class SqliteHelper:
             self.conn.rollback()
             return False
 
-    # todo make uid tuple
     def insert_transaction(self, data):
         """Insert transaction information"""
         c = self.cursor

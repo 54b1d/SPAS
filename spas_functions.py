@@ -137,18 +137,16 @@ def get_uid_for(name=None):
 # trx_type == "IN" --> Cash In Flow
 # else Cash Out Flow
 
-def init_cash_transaction(trx_type=None):
+def init_cash_transaction(trx_tag=None):
     """"pops addTransaction Dialog for trx_type = IN/OUT
         based on trx_type argument provided
         completes transaction and balance insertion"""
     add_trx = uic.loadUi('ui/diagNewCashTrx.ui')
     add_trx.show()
-    if trx_type == "IN":
+    if trx_tag == "CASH_IN":
         add_trx.setWindowTitle("নগদ জমা")
-        trx_tag = "cash_in"
-    else:
+    elif trx_tag == "CASH_OUT":
         add_trx.setWindowTitle("নগদ পরিশোধ")
-        trx_tag = "cash_out"
     add_trx.lddate.setText(str(datetime.date.today()))
 
     # fetch names from db to populate dropdown list
@@ -169,7 +167,7 @@ def init_cash_transaction(trx_type=None):
     cgs = 0  # not for cash trx
 
     def cash_transaction_confirmed():
-        if trx_type == "IN":
+        if trx_tag == "CASH_IN":
             add_trx.setWindowTitle("নগদ জমা")
             dr_uid = cash_uid
             cr_uid = add_trx.comboBox.itemData(
@@ -212,13 +210,13 @@ def init_cash_transaction(trx_type=None):
 
 def cash_flow_in_table(self):
     # set query to select all cash in transactions with meta name
-    query = '''SELECT 
-       [transactions].[date], 
+    query = '''SELECT  
+       [transactions].[date],
        [accounts].[name],
        [transactions].[amount]
-        FROM   [accounts]
-       INNER JOIN [transactions] ON [accounts].[uid] = [transactions].[cr_uid]
-        WHERE [transactions].[cr_uid] != '2' ORDER BY [transactions].[date] DESC;'''
+        FROM   [transactions]
+       INNER JOIN [accounts] ON [accounts].[uid] = [transactions].[dr_uid]
+        WHERE  [transactions].[trx_tag] = 'CASH_IN' ORDER BY [transactions].[date] DESC;'''
     param = ''
     self.setRowCount(0)
     out = database.select(query, param)
@@ -231,13 +229,13 @@ def cash_flow_in_table(self):
 
 def cash_flow_out_table(self):
     # set query to select all cash out transactions with meta name
-    query = '''SELECT 
-       [transactions].[date], 
+    query = '''SELECT  
+       [transactions].[date],
        [accounts].[name],
        [transactions].[amount]
-        FROM   [accounts]
-       INNER JOIN [transactions] ON [accounts].[uid] = [transactions].[dr_uid]
-        WHERE [transactions].[dr_uid] != '2' ORDER BY [transactions].[date] DESC;'''
+        FROM   [transactions]
+       INNER JOIN [accounts] ON [accounts].[uid] = [transactions].[dr_uid]
+        WHERE  [transactions].[trx_tag] = 'CASH_OUT' ORDER BY [transactions].[date] DESC;'''
     param = ''
     self.setRowCount(0)
     out = database.select(query, param)
@@ -248,12 +246,15 @@ def cash_flow_out_table(self):
             self.setItem(row_number, column_number, cell)
 
 
-def init_inv_transaction(var):
+def init_inv_transaction(trx_tag):
     def update_cgs():
-        product_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-        quantity = ui.ld_quantity.text()
-        cgs = get_cgs(product_id, quantity)
-        ui.ld_cgs.setText(str(cgs))
+        if not trx_tag == "BUY":
+            product_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
+            quantity = ui.ld_quantity.text()
+            cgs = get_cgs(product_id, quantity)
+            ui.ld_cgs.setText(str(cgs))
+        else:
+            ui.ld_cgs.setText(str(0))
 
     def count_rate():
         # amount / quantity
@@ -291,21 +292,40 @@ def init_inv_transaction(var):
     def inv_trx_confirmed():
         trx_date = ui.ld_date.text()
         quantity = ui.ld_quantity.text()
-        amount = float(ui.ld_amount.text())  # float to get decimal point
+        amount = ui.ld_amount.text()
         description = ui.ld_desc.text()
         p_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
         p_lott = 'NA'
         cgs = ui.ld_cgs.text()
-        if var == "BUY":
+        if trx_tag == "BUY":
             debit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
             credit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
         else:
             debit_uid = ui.comboNames.itemData(ui.comboNames.currentIndex())
             credit_uid = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
-        param = trx_date, trx_tag, debit_uid, credit_uid, description, amount, p_id, p_lott, quantity, cgs
-        print(str(param))
-        # todo store in database
-        database.insert_transaction(param)
+        # eliminate empty values
+        if debit_uid != '' and credit_uid != '' and amount != '' and quantity != '':
+            param = trx_date, trx_tag, debit_uid, credit_uid, description, amount, p_id, p_lott, quantity, cgs
+            print(str(param))
+            # store in database
+            if database.insert_transaction(param):
+                inserted = True
+                msg = "Transaction added", quantity, "KG", amount, "Tk"
+                ui.label_msg.setText(str(msg))
+                if ui.rb_add_more.isChecked() and inserted:
+                    # todo reset fields for another trx
+                    ui.ld_quantity.setText('')
+                    ui.ld_rate.setText('')
+                    ui.ld_amount.setText('')
+                    ui.ld_desc.setText('')
+                    print("triggered", inserted)
+            else:
+                inserted = False
+                msg = "Could not insert into database."
+                ui.label_msg.setText(str(msg))
+        else:
+            msg = "Insert required values."
+            ui.label_msg.setText(str(msg))
 
     ui = uic.loadUi('ui/diagNewInvTrx.ui')
     # set float validators
@@ -314,14 +334,12 @@ def init_inv_transaction(var):
     ui.ld_amount.setValidator(double_validator)
     ui.ld_rate.setValidator(double_validator)
     # set window title
-    if var == "BUY":
+    if trx_tag == "BUY":
         print("Buy")
         ui.setWindowTitle("Buy Form")
-        trx_tag = "buy"
-    elif var == "SALE":
+    elif trx_tag == "SALE":
         print("Sale")
         ui.setWindowTitle("Sale Form")
-        trx_tag = "sale"
     # set to today's date
     ui.ld_date.setText(str(datetime.date.today()))
 
@@ -356,7 +374,8 @@ def init_inv_transaction(var):
     ui.ld_quantity.textChanged.connect(update_cgs)
     ui.pb_count.clicked.connect(count_amount)
     ui.ld_amount.textChanged.connect(count_rate)
-    ui.ld_amount.textChanged.connect(count_profit)
+    if not trx_tag == "BUY":
+        ui.ld_amount.textChanged.connect(count_profit)
     ui.pb_ok.clicked.connect(inv_trx_confirmed)
     ui.pb_cancel.clicked.connect(lambda: ui.close())
 
@@ -377,3 +396,11 @@ def get_cgs(p_id, quantity):
     print("CGS: ", cgs)
     # return cgs
     return cgs
+
+
+def inventory_buy_table():
+    pass
+
+
+def inventory_sale_table():
+    pass

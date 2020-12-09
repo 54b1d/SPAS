@@ -16,8 +16,8 @@ class CashFlow(QWidget):
         cash_flow_in_table(self.table_cash_flow_in)
         cash_flow_out_table(self.table_cash_flow_out)
         # button actions
-        self.pb_add_trx_in.clicked.connect(lambda: init_cash_transaction("IN"))
-        self.pb_add_trx_out.clicked.connect(lambda: init_cash_transaction())
+        self.pb_add_trx_in.clicked.connect(lambda: init_cash_transaction("CASH_IN"))
+        self.pb_add_trx_out.clicked.connect(lambda: init_cash_transaction("CASH_OUT"))
         # refresh table data
         self.pb_cash_flow_refresh.clicked.connect(
             lambda: cash_flow_in_table(self.table_cash_flow_in))

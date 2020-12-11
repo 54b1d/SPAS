@@ -10,6 +10,7 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFont
                          QRadialGradient)
 
 from ui_functions import *
+from spas_functions import first_run
 
 
 class MainWindow(QMainWindow):
@@ -36,5 +37,6 @@ if __name__ == '__main__':
     app = QApplication([])
     window = MainWindow()
     if prerequisites():
+        first_run()
         window.show()
     app.exec_()

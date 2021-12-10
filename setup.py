@@ -1,3 +1,4 @@
+import configparser
 from PyQt5 import uic
 from configparser import ConfigParser
 import glob
@@ -18,9 +19,10 @@ def prerequisites():
     config_obj.read(config_file)
     try:
         app_settings = config_obj["APPSETTINGS"]
-        dbname = app_settings["dbame"]
+        dbname = app_settings["dbname"]
         if not dbname:
             init_setup_ui(config_file, config_obj)
+            print("No DBNAME found")
         else:
             print("Software has a configuration file.\nContinuing...")
             return dbname
@@ -73,7 +75,7 @@ def init_setup_ui(config_file, config_obj):
         app_settings = config_obj["APPSETTINGS"]
         # set as not first run
         app_settings["first_run"] = "No"
-        app_settings["dbame"] = dbname
+        app_settings["dbname"] = dbname
         with open(config_file, 'w') as settings:
             config_obj.write(settings)
         print("Settings Stored")

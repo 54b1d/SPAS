@@ -88,6 +88,29 @@ def fetch_accounts(table):
         QtWidgets.QTreeView.NoEditTriggers)
 
 
+def fetch_inventory(table):
+    """populate accounts window table"""
+    print("Fetching inventory table items")
+    table.setRowCount(0)
+    query = '''SELECT 
+   [inventory].[product_name], 
+   [inventory].[product_quantity]
+    FROM   [inventory] ORDER BY [inventory].[product_name];'''
+    try:
+        data = database.select(query)
+        # accounts_window.tableWidget.setColumnCount(2)
+        for row_number, row_data in enumerate(data):
+            table.insertRow(row_number)
+            for column_number, info in enumerate(row_data):
+                celldata = QtWidgets.QTableWidgetItem(str(info))
+                table.setItem(
+                    row_number, column_number, celldata)
+    except sqlite3.Error as err:
+        print('Error', err)
+    table.setEditTriggers(
+        QtWidgets.QTreeView.NoEditTriggers)
+
+
 def init_add_account(table):
     add_account_ui = uic.loadUi('ui/diagNewAccount.ui')
     add_account_ui.show()
@@ -121,6 +144,35 @@ def init_add_account(table):
 
     add_account_ui.pb_confirm.clicked.connect(confirmed)
     add_account_ui.pb_cancel.clicked.connect(lambda: add_account_ui.close())
+
+
+def init_add_product():
+    add_product_ui = uic.loadUi('ui/diagNewProduct.ui')
+    add_product_ui.show()
+    fetch_inventory(add_product_ui.table_inventory)
+
+    def confirmed():
+        product_name = add_product_ui.ld_productName.text()
+        product_lott = '0'
+        if product_name != '':  # eliminates empty data
+            data = (product_name, product_lott)
+            try:
+                database.insert_inventory(data)
+                msg = product_name + " - Added successfully."
+                add_product_ui.label_msg.setText(msg)
+                # after insert reset fields
+                add_product_ui.ld_productName.setText('')
+                add_product_ui.ld_productName.setFocus()
+                fetch_inventory(add_product_ui.table_inventory)
+            except sqlite3.Error as err:
+                add_product_ui.label_msg.setText(err)
+        else:
+            msg = 'Required fields are empty.'
+            add_product_ui.show()
+            add_product_ui.label_msg.setText(msg)
+
+    add_product_ui.pb_confirm.clicked.connect(confirmed)
+    add_product_ui.pb_cancel.clicked.connect(lambda: add_product_ui.close())
 
 
 # get uid for specific Name supplied

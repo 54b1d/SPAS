@@ -34,12 +34,11 @@ class SqliteHelper:
         [group] VARCHAR NOT NULL DEFAULT PR);''')
 
         c.execute('''CREATE TABLE IF NOT EXISTS "inventory" (
-        "product_id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-        "product_name"	TEXT NOT NULL,
-        "p_lott"	TEXT NOT NULL UNIQUE,
-        "product_quantity"	INTEGER NOT NULL DEFAULT 0,
-        "cgs"	REAL NOT NULL DEFAULT 0
-        );
+        [product_id] INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
+        [product_name] TEXT NOT NULL,
+        [p_lott] TEXT DEFAULT 0,
+        [product_quantity] INTEGER DEFAULT 0,
+        [cgs] REAL DEFAULT 0);
         ''')
         # added new column trx_tag {cash_in, cash_out, buy, sale}
         c.execute('''CREATE TABLE IF NOT EXISTS "transactions" (
@@ -103,11 +102,11 @@ class SqliteHelper:
 
     def insert_inventory(self, data):
         c = self.cursor
-        query = '''INSERT INTO [inventory_balance] VALUES (?, ?)'''
+        query = '''INSERT INTO [inventory] (product_name, p_lott) VALUES (?, ?)'''
         try:
             c.execute(query, data)
             self.conn.commit()
-            print("p_type added to stock")
+            print("New Product added to stock")
             return True
         except sqlite3.Error as err:
             print(err)

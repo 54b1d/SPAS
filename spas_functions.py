@@ -179,11 +179,16 @@ def init_add_product():
 def get_uid_for(name=None):
     query = '''SELECT [accounts].[uid] FROM [accounts] WHERE [name] = ?'''
     data = database.select(query, name)
+    if data:
+        for x in data:
+            for y in x:
+                uid = y
+        return uid
+    else:
+        msg = str(name) + " <<== Not found"
+        print(msg)
+        return 0
     #  select uid only as int
-    for x in data:
-        for y in x:
-            uid = y
-    return uid
 
 
 # trx_type == "IN" --> Cash In Flow
@@ -194,7 +199,11 @@ def init_cash_transaction(trx_tag=None):
         based on trx_type argument provided
         completes transaction and balance insertion"""
     add_trx = uic.loadUi('ui/diagNewCashTrx.ui')
-    add_trx.show()
+    cash_uid = get_uid_for(["Cash"])
+    if cash_uid:
+        add_trx.show()
+    else:
+        print("Raise Exception")  # todo Provide GUI for the error
     if trx_tag == "CASH_IN":
         add_trx.setWindowTitle("নগদ জমা")
     elif trx_tag == "CASH_OUT":

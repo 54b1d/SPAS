@@ -44,7 +44,18 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QListView" name="listView"/>
+       <widget class="QTableWidget" name="table_inventory">
+        <column>
+         <property name="text">
+          <string>Product Name</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Avavilable Quantity</string>
+         </property>
+        </column>
+       </widget>
       </item>
       <item>
        <spacer name="verticalSpacer">

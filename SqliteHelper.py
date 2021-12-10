@@ -31,7 +31,7 @@ class SqliteHelper:
         [name] VARCHAR NOT NULL,
         [address] VARCHAR,
         [mobile] VARCHAR,
-        [group] VARCHAR NOT NULL DEFAULT PR);''')
+        [acc_group] VARCHAR NOT NULL DEFAULT PR);''')
 
         c.execute('''CREATE TABLE IF NOT EXISTS "inventory" (
         [product_id] INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -63,6 +63,8 @@ class SqliteHelper:
         PRIMARY KEY("uid")
         );
         ''')
+        # Create Cash account which will always be needed.
+        c.execute('''INSERT INTO [accounts] (name, address, mobile, acc_group) VALUES ("Cash", "NA", "NA", "CA")''')
 
         print('Tables created successfully.')
         self.conn.commit()
@@ -71,7 +73,7 @@ class SqliteHelper:
         """Insert Account Information with balance table entry"""
         c = self.cursor
         query = '''INSERT INTO [accounts]
-                ([name], [address], [mobile], [group])
+                ([name], [address], [mobile], [acc_group])
                 VALUES (?, ? ,?, ?)'''
         try:
             c.execute(query, data)

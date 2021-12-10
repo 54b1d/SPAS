@@ -122,9 +122,9 @@ def init_add_account(table):
         name = add_account_ui.ld_name.text()
         address = add_account_ui.ld_address.text()
         mobile = add_account_ui.ld_mobile.text()
-        group = add_account_ui.comboGroup.currentData()
+        acc_group = add_account_ui.comboGroup.currentData()
         if name != '' and address != '':  # eliminates empty data
-            data = (name, address, mobile, group)
+            data = (name, address, mobile, acc_group)
             try:
                 database.insert_account(data)
                 msg = name + "- Added successfully."
@@ -203,16 +203,13 @@ def init_cash_transaction(trx_tag=None):
 
     # fetch names from db to populate dropdown list
     query = '''SELECT [accounts].[name], [accounts].[address], [accounts].[uid]
-    FROM [accounts] WHERE [accounts].[group] = "PR" ORDER BY [accounts].[name];'''
+    FROM [accounts] WHERE [accounts].[acc_group] = "PR" ORDER BY [accounts].[name];'''
     data = database.select(query)
     for out in data:
         name, address, uid = out
         add_trx.comboBox.addItem(name + ',' + address, uid)
 
     # declaring zero values before processing
-    # todo check if cash_uid not found
-    cash_uid = get_uid_for(["Cash"])
-
     p_id = 0  # not for cash trx
     p_lott = 0  # not for cash trx
     quantity = 0  # not for cash trx
@@ -397,7 +394,7 @@ def init_inv_transaction(trx_tag):
 
     # fetch accounts
     query = '''SELECT [accounts].[name], [accounts].[address], [accounts].[uid]
-            FROM [accounts] WHERE [accounts].[group] = "PR" ORDER BY [accounts].[name];'''
+            FROM [accounts] WHERE [accounts].[acc_group] = "PR" ORDER BY [accounts].[name];'''
     data = database.select(query)
     # fill comboNames with accounts
     for out in data:

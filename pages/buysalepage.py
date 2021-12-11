@@ -15,3 +15,4 @@ class BuySale(QWidget):
         self.pb_buy.clicked.connect(lambda: init_inv_transaction("BUY"))
         self.pb_sale.clicked.connect(lambda: init_inv_transaction("SALE"))
         self.pb_add_new_product.clicked.connect(lambda: init_add_product())
+        self.pb_refresh_inventory.clicked.connect(lambda: fetch_inventory(self.table_inventory))

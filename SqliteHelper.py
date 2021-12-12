@@ -151,7 +151,7 @@ class SqliteHelper:
     def update_inventory_balance(self, param):
         """update inventory stock balance"""
         c = self.cursor
-        query = '''UPDATE [inventory_balance] SET [p_stock] = ? WHERE [p_type] = ?'''
+        query = '''UPDATE [inventory] SET [product_quantity] = ?, [cgs] = ? WHERE [product_id] = ?'''
         try:
             c.execute(query, param)
             self.conn.commit()

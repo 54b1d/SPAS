@@ -336,7 +336,7 @@ def init_inv_transaction(trx_tag):
     def count_profit():
         amount = ui.ld_amount.text()
         cgs = ui.ld_cgs.text()
-        diff = float(amount) - float(cgs)
+        diff = float(amount) - float(cgs)  # todo can't convert cgs 0.0 to float
         if diff > 0:
             profit = float(diff)
             ui.ld_profit.setText(str(profit))
@@ -370,8 +370,23 @@ def init_inv_transaction(trx_tag):
                 inserted = True
                 msg = "Transaction added", quantity, "KG", amount, "Tk"
                 ui.label_msg.setText(str(msg))
+                # todo get old inventory balance
+                query = '''SELECT 
+                [inventory].[product_quantity], 
+                [inventory].[cgs]
+                FROM   [inventory] WHERE [inventory].[product_id] = ?;'''
+                param = str(p_id)  # pass str product id
+                out = database.select(query, param)
+                for x, y in out:
+                    old_quantity = str(x)
+                    old_cgs = str(y)
+                new_product_quantity = int(quantity) + int(old_quantity)
+                print("New product quantity: " + str(new_product_quantity))
+                current_cgs = float(old_cgs) + float(amount)
+                # todo update balances for related inventory and accounts
+                param = str(new_product_quantity), str(current_cgs), str(p_id)
+                database.update_inventory_balance(param)
                 if ui.rb_add_more.isChecked() and inserted:
-                    # todo reset fields for another trx
                     ui.ld_quantity.setText('')
                     ui.ld_rate.setText('')
                     ui.ld_amount.setText('')

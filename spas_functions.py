@@ -370,8 +370,22 @@ def init_inv_transaction(trx_tag):
                 inserted = True
                 msg = "Transaction added", quantity, "KG", amount, "Tk"
                 ui.label_msg.setText(str(msg))
+                # todo get old amounts
+                query = '''SELECT 
+           [inventory].[product_quantity], 
+           [inventory].[cgs]
+            FROM   [inventory] WHERE [inventory].[product_id] = ?;'''
+                param = p_id
+                out = database.select(query, param)
+                for x, y in out:
+                    old_quantity = str(x)
+                    old_cgs = str(y)
+                new_product_quantity = quantity + old_quantity
+                new_cgs = (old_cgs + cgs) / new_product_quantity
+                # todo update balances for related inventory and accounts
+                param = new_product_quantity, new_cgs, p_id
+                database.update_inventory_balance(param)
                 if ui.rb_add_more.isChecked() and inserted:
-                    # todo reset fields for another trx
                     ui.ld_quantity.setText('')
                     ui.ld_rate.setText('')
                     ui.ld_amount.setText('')

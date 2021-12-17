@@ -340,7 +340,7 @@ def init_inv_transaction(trx_tag):
             ui.ld_profit.setText(str(round(diff, 2)))
         else:
             cgs = ui.ld_cgs.text()
-            diff = float(amount) - float(cgs)  # todo can't convert cgs 0.0 to float
+            diff = float(amount) - float(cgs)
             if diff > 0:
                 profit = float(diff)
                 ui.ld_profit.setText(str(round(profit, 2)))
@@ -374,7 +374,6 @@ def init_inv_transaction(trx_tag):
                 inserted = True
                 msg = "Transaction added", quantity, "KG", amount, "Tk"
                 ui.label_msg.setText(str(msg))
-                # todo get old inventory balance
                 query = '''SELECT 
                 [inventory].[product_quantity], 
                 [inventory].[cgs]

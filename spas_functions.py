@@ -310,7 +310,7 @@ def init_inv_transaction(trx_tag):
             product_id = ui.comboProducts.itemData(ui.comboProducts.currentIndex())
             quantity = ui.ld_quantity.text()
             cgs = get_cgs(product_id, quantity)
-            ui.ld_cgs.setText(str(cgs))
+            ui.ld_cgs.setText(str(round(cgs, 2)))
         else:
             ui.ld_cgs.setText(str(0))
 
@@ -320,7 +320,7 @@ def init_inv_transaction(trx_tag):
         quantity = ui.ld_quantity.text()
         if amount and quantity:
             rate = float(amount) / float(quantity)
-            ui.ld_rate.setText(str(rate))
+            ui.ld_rate.setText(str(round(rate, 2)))
 
     def count_amount():
 
@@ -331,21 +331,25 @@ def init_inv_transaction(trx_tag):
         rate = ui.ld_rate.text()
         if quantity and rate:
             amount = float(quantity) * float(rate)
-            ui.ld_amount.setText(str(amount))
+            ui.ld_amount.setText(str(round(amount, 2)))
 
     def count_profit():
         amount = ui.ld_amount.text()
-        cgs = ui.ld_cgs.text()
-        diff = float(amount) - float(cgs)  # todo can't convert cgs 0.0 to float
-        if diff > 0:
-            profit = float(diff)
-            ui.ld_profit.setText(str(profit))
-        elif diff < 0:
-            loss = diff
-            ui.ld_profit.setText(str(loss))
+        if amount == '':
+            diff = 0.0
+            ui.ld_profit.setText(str(round(diff, 2)))
         else:
-            balanced = diff
-            ui.ld_profit.setText(str(balanced))
+            cgs = ui.ld_cgs.text()
+            diff = float(amount) - float(cgs)  # todo can't convert cgs 0.0 to float
+            if diff > 0:
+                profit = float(diff)
+                ui.ld_profit.setText(str(round(profit, 2)))
+            elif diff < 0:
+                loss = diff
+                ui.ld_profit.setText(str(round(loss, 2)))
+            else:
+                balanced = diff
+                ui.ld_profit.setText(str(round(balanced, 2)))
 
     def inv_trx_confirmed():
         trx_date = ui.ld_date.text()
@@ -380,18 +384,27 @@ def init_inv_transaction(trx_tag):
                 for x, y in out:
                     old_quantity = str(x)
                     old_cgs = str(y)
-                new_product_quantity = int(quantity) + int(old_quantity)
+                if trx_tag == "BUY":
+                    new_product_quantity = int(quantity) + int(old_quantity)
+                else:
+                    new_product_quantity = int(old_quantity) - int(quantity)
                 print("New product quantity: " + str(new_product_quantity))
-                current_cgs = float(old_cgs) + float(amount)
-                # todo update balances for related inventory and accounts
-                param = str(new_product_quantity), str(current_cgs), str(p_id)
+                if trx_tag == "BUY":
+                    new_cgs = float(old_cgs) + float(amount)  # logic ok for buy
+                else:
+                    new_cgs = float(old_cgs) - float(ui.ld_cgs.text())  # logic ok for sale
+                # update balances for related inventory and accounts
+                param = str(new_product_quantity), str(new_cgs), str(p_id)
                 database.update_inventory_balance(param)
                 if ui.rb_add_more.isChecked() and inserted:
+                    print("Debug: inventory update parameters below")
                     ui.ld_quantity.setText('')
                     ui.ld_rate.setText('')
                     ui.ld_amount.setText('')
                     ui.ld_desc.setText('')
-                    print("triggered", inserted)
+                else:
+                    print("Closing trx ui, add more checkbox not checked")
+                    ui.close()
             else:
                 inserted = False
                 msg = "Could not insert into database."
@@ -406,6 +419,7 @@ def init_inv_transaction(trx_tag):
     ui.ld_quantity.setValidator(double_validator)
     ui.ld_amount.setValidator(double_validator)
     ui.ld_rate.setValidator(double_validator)
+    ui.ld_cgs.setValidator(double_validator)
     # set window title
     if trx_tag == "BUY":
         print("Buy")
@@ -454,20 +468,19 @@ def init_inv_transaction(trx_tag):
 
 
 def get_cgs(p_id, quantity):
-    if quantity == '':
+    if quantity == '' or quantity == 0:
         quantity = 0
     # get product quantity and amount
     query = '''SELECT [inventory].[product_quantity], [inventory].[cgs]
             FROM   [inventory] WHERE [inventory].[product_id] = ?;'''
     param = str(p_id)
-    print("P_ID = ", p_id)
+    print("Getting gross quantity and gross cgs for p_id = ", p_id)
     data = database.select(query, param)
     for x, y in enumerate(data):
         gross_quantity, gross_cgs = y
     # divide them and multiply by quantity and get cgs
     cgs = float(gross_cgs) / float(gross_quantity) * float(quantity)
-    print("CGS: ", cgs)
-    # return cgs
+    print("CGS: ", cgs, gross_cgs, gross_quantity)
     return cgs
 
 

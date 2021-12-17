@@ -111,6 +111,49 @@ def fetch_inventory(table):
         QtWidgets.QTreeView.NoEditTriggers)
 
 
+def fetch_inventory_transactions(tag, table):
+    print('debug: fetch_inventory_transactions :', tag)
+    table.setRowCount(0)
+    table.setEditTriggers(
+        QtWidgets.QTreeView.NoEditTriggers)
+    if tag == 'BUY':
+        query = '''SELECT [transactions].[date], [inventory].[product_name], [accounts].[name], [transactions].[quantity], [transactions].[amount]
+                FROM [transactions]
+                INNER JOIN [inventory] ON [transactions].[p_id] = [inventory].[product_id]
+                INNER JOIN [accounts] ON [transactions].[cr_uid] = [accounts].[uid]
+                WHERE  [transactions].[trx_tag] = ?;'''
+        param = str(tag),
+        try:
+            data = database.select(query, param)
+            for row_number, row_data in enumerate(data):
+                table.insertRow(row_number)
+                for column_number, info in enumerate(row_data):
+                    celldata = QtWidgets.QTableWidgetItem(str(info))
+                    table.setItem(
+                        row_number, column_number, celldata)
+        except sqlite3.Error as err:
+            print(err)
+    elif tag == 'SALE':
+        query = '''SELECT [transactions].[date], [inventory].[product_name], [accounts].[name], [transactions].[quantity], [transactions].[amount]
+        FROM [transactions]
+        INNER JOIN [inventory] ON [transactions].[p_id] = [inventory].[product_id]
+        INNER JOIN [accounts] ON [transactions].[dr_uid] = [accounts].[uid]
+        WHERE  [transactions].[trx_tag] = ?;'''
+        param = str(tag),
+        try:
+            data = database.select(query, param)
+            for row_number, row_data in enumerate(data):
+                table.insertRow(row_number)
+                for column_number, info in enumerate(row_data):
+                    celldata = QtWidgets.QTableWidgetItem(str(info))
+                    table.setItem(
+                        row_number, column_number, celldata)
+        except sqlite3.Error as err:
+            print(err)
+    else:
+        print('No table tag provided')
+
+
 def init_add_account(table):
     add_account_ui = uic.loadUi('ui/diagNewAccount.ui')
     add_account_ui.show()
@@ -481,11 +524,3 @@ def get_cgs(p_id, quantity):
     cgs = float(gross_cgs) / float(gross_quantity) * float(quantity)
     print("CGS: ", cgs, gross_cgs, gross_quantity)
     return cgs
-
-
-def inventory_buy_table():
-    pass
-
-
-def inventory_sale_table():
-    pass

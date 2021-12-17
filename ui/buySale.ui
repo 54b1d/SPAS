@@ -48,52 +48,27 @@
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-               <item>
-                   <widget class="QPushButton" name="pb_refresh_inventory">
-                       <property name="text">
-                           <string>Refresh</string>
-                       </property>
-                   </widget>
-               </item>
-               <item>
-                   <widget class="QTableWidget" name="table_inventory">
-                       <column>
-                           <property name="text">
-                               <string>Product Name</string>
-                           </property>
-                       </column>
-                       <column>
-                           <property name="text">
-                               <string>Avavilable Quantity</string>
-                           </property>
-                       </column>
-                   </widget>
-               </item>
-               <item>
-                   <widget class="QPushButton" name="pb_add_new_product">
-                       <property name="text">
-                           <string>Add New Product</string>
-                       </property>
-                   </widget>
-               </item>
-               <item>
-                   <layout class="QHBoxLayout" name="horizontalLayout">
-                       <item>
-                           <widget class="QPushButton" name="pb_buy">
-                               <property name="text">
-                                   <string>Buy</string>
-                               </property>
-                           </widget>
-                       </item>
-           <item>
-            <widget class="QPushButton" name="pb_sale">
-             <property name="text">
-              <string>Sale</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QTableWidget" name="table_inventory">
+           <column>
+            <property name="text">
+             <string>Product Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Avavilable Quantity</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pb_add_new_product">
+           <property name="text">
+            <string>Add New Product</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -107,70 +82,93 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-                <widget class="QTableWidget" name="table_inventory_buy">
-                    <column>
-                        <property name="text">
-                            <string>Date</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Product Name</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Seller</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Quantity</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Rate</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Amount</string>
-                        </property>
-                    </column>
-                </widget>
-            </item>
-            <item>
-                <widget class="QTableWidget" name="table_inventory_sale">
-                    <column>
-                        <property name="text">
-                            <string>Date</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Product Name</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Quantity</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Rate</string>
-                        </property>
-                    </column>
-                    <column>
-                        <property name="text">
-                            <string>Amount</string>
-                        </property>
-                    </column>
-                </widget>
-            </item>
+         <item>
+          <widget class="QTableWidget" name="table_inventory_buy">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <column>
+            <property name="text">
+             <string>Date</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Product Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Seller</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Quantity</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Amount</string>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
+          <widget class="QTableWidget" name="table_inventory_sale">
+           <column>
+            <property name="text">
+             <string>Date</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Product Name</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Buyer</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Quantity</string>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Amount</string>
+            </property>
+           </column>
+          </widget>
+         </item>
         </layout>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QPushButton" name="pb_buy">
+          <property name="text">
+           <string>Buy</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pb_sale">
+          <property name="text">
+           <string>Sale</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pb_refresh_inventory">
+        <property name="text">
+         <string>Refresh</string>
+        </property>
        </widget>
       </item>
      </layout>

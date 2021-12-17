@@ -11,9 +11,9 @@ class BuySale(QWidget):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         uic.loadUi('ui/buySale.ui', self)
-        fetch_inventory(self.table_inventory)
 
         def refresh_page(self):
+            fetch_inventory(self.table_inventory)
             fetch_inventory_transactions('BUY', self.table_inventory_buy)
             fetch_inventory_transactions('SALE', self.table_inventory_sale)
 

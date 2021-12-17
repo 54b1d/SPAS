@@ -520,7 +520,10 @@ def get_cgs(p_id, quantity):
     data = database.select(query, param)
     for x, y in enumerate(data):
         gross_quantity, gross_cgs = y
-    # divide them and multiply by quantity and get cgs
-    cgs = float(gross_cgs) / float(gross_quantity) * float(quantity)
+    # divide them and multiply by quantity and get Cost of Goods Sold
+    if gross_cgs == 0 or gross_quantity == 0 or quantity == 0:
+        cgs = 0
+    else:
+        cgs = float(gross_cgs) / float(gross_quantity) * float(quantity)
     print("CGS: ", cgs, gross_cgs, gross_quantity)
     return cgs

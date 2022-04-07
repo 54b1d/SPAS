@@ -72,13 +72,13 @@ class SetupWindow(QDialog):
                 self.label_msg.setText(msg)
 
         def store_settings_confirmed(config_file):
-            business_name = str(self.ld_business_name.text())
+            business_name = str(self.ld_business_name.text()).replace(" ", "_")
             business_address = str(self.ld_business_address.text())
             if self.rb_use_existing_database.isChecked():
                 dbname = str(self.combo_databases.currentText())
                 print('existing', dbname)
             else:
-                dbname = str(self.ld_dbname.text()) + '.db'
+                dbname = business_name + '.db'
 
             # store in config_file
             print(business_name, business_address, dbname)
